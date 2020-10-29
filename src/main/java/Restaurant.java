@@ -36,8 +36,8 @@ public class Restaurant {
     public void waiterIsWorking() {
         System.out.println(Thread.currentThread().getName() + " на работе!");
         while (guestQueue.size() <= LIMIT_GUESTS) {
-            if (guestQueue.size() == 0) {
                 synchronized (guestQueue) {
+                    if (guestQueue.size() == 0) {
                     try {
                         guestQueue.wait();
                     } catch (InterruptedException e) {
