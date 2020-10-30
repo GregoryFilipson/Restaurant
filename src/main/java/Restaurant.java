@@ -8,7 +8,7 @@ public class Restaurant {
     private final int TIME_TO_COME_THE_GUEST = 300;
     private final int TIME_FOR_EATING = 1000;
     private final int TIME_BETWEEN_GUESTS = 1100;
-    private final int LIMIT_GUESTS = 5;
+
 
     public void guestIsHere() {
         try {
@@ -16,27 +16,22 @@ public class Restaurant {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        System.out.println(Thread.currentThread().getName() + " в ресторане!");
         synchronized (guestQueue) {
-                guestQueue.offer(new Guest());
-                guestQueue.notify();
+            guestQueue.offer(new Guest());
+            System.out.println(Thread.currentThread().getName() + " в ресторане!");
+            guestQueue.notify();
         }
         synchronized (lock) {
             try {
                 lock.wait();
+                System.out.println(Thread.currentThread().getName() + " приступил к еде");
+                Thread.sleep(TIME_FOR_EATING);
+                System.out.println(Thread.currentThread().getName() + " вышел из ресторана.");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        try {
-            System.out.println(Thread.currentThread().getName() + " приступил к еде");
-            Thread.sleep(TIME_FOR_EATING);
-            System.out.println(Thread.currentThread().getName() + " вышел из ресторана.");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
-
 
     public void waiterIsWorking() {
         System.out.println(Thread.currentThread().getName() + " на работе!");
@@ -51,17 +46,19 @@ public class Restaurant {
                 }
             }
             System.out.println(Thread.currentThread().getName() + " взял заказ...");
+            guestQueue.poll();
             try {
                 Thread.sleep(COOKING_TIME);
-                guestQueue.poll();
                 System.out.println(Thread.currentThread().getName() + " несет заказ. Наконец то!");
                 Thread.sleep(TIME_TO_COME_THE_GUEST);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             synchronized (lock) {
                 lock.notify();
             }
+
             if (guestQueue.isEmpty()) {
                 break;
             }
