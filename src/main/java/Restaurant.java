@@ -11,15 +11,15 @@ public class Restaurant {
     private final int LIMIT_GUESTS = 5;
 
     public void guestIsHere() {
+        try {
+            Thread.sleep(TIME_BETWEEN_GUESTS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(Thread.currentThread().getName() + " в ресторане!");
         synchronized (guestQueue) {
-            try {
-                Thread.sleep(TIME_BETWEEN_GUESTS);
-                System.out.println(Thread.currentThread().getName() + " в ресторане!");
                 guestQueue.offer(new Guest());
                 guestQueue.notify();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
         synchronized (lock) {
             try {
@@ -40,9 +40,9 @@ public class Restaurant {
 
     public void waiterIsWorking() {
         System.out.println(Thread.currentThread().getName() + " на работе!");
-        while (guestQueue.size() <= LIMIT_GUESTS) {
+        while (true) {
             synchronized (guestQueue) {
-                if (guestQueue.size() == 0) {
+                if (guestQueue.isEmpty()) {
                     try {
                         guestQueue.wait();
                     } catch (InterruptedException e) {
@@ -62,7 +62,7 @@ public class Restaurant {
             synchronized (lock) {
                 lock.notify();
             }
-            if (guestQueue.size() == 0) {
+            if (guestQueue.isEmpty()) {
                 break;
             }
         }
