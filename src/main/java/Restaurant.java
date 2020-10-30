@@ -24,6 +24,11 @@ public class Restaurant {
         synchronized (lock) {
             try {
                 lock.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+            try {
                 System.out.println(Thread.currentThread().getName() + " приступил к еде");
                 Thread.sleep(TIME_FOR_EATING);
                 System.out.println(Thread.currentThread().getName() + " вышел из ресторана.");
@@ -31,7 +36,7 @@ public class Restaurant {
                 e.printStackTrace();
             }
         }
-    }
+
 
     public void waiterIsWorking() {
         System.out.println(Thread.currentThread().getName() + " на работе!");
