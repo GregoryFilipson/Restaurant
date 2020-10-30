@@ -28,21 +28,21 @@ public class Restaurant {
                 e.printStackTrace();
             }
         }
-            try {
-                System.out.println(Thread.currentThread().getName() + " приступил к еде");
-                Thread.sleep(TIME_FOR_EATING);
-                System.out.println(Thread.currentThread().getName() + " вышел из ресторана.");
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        try {
+            System.out.println(Thread.currentThread().getName() + " приступил к еде");
+            Thread.sleep(TIME_FOR_EATING);
+            System.out.println(Thread.currentThread().getName() + " вышел из ресторана.");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+    }
 
 
     public void waiterIsWorking() {
         System.out.println(Thread.currentThread().getName() + " на работе!");
         while (guestQueue.size() <= LIMIT_GUESTS) {
-                synchronized (guestQueue) {
-                    if (guestQueue.size() == 0) {
+            synchronized (guestQueue) {
+                if (guestQueue.size() == 0) {
                     try {
                         guestQueue.wait();
                     } catch (InterruptedException e) {
@@ -61,8 +61,8 @@ public class Restaurant {
             }
             synchronized (lock) {
                 lock.notify();
-                }
-            if (guestQueue.size()==0) {
+            }
+            if (guestQueue.size() == 0) {
                 break;
             }
         }
