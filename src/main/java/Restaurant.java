@@ -46,7 +46,6 @@ public class Restaurant {
                 }
             }
             System.out.println(Thread.currentThread().getName() + " взял заказ...");
-            guestQueue.poll();
             try {
                 Thread.sleep(COOKING_TIME);
                 System.out.println(Thread.currentThread().getName() + " несет заказ. Наконец то!");
@@ -56,9 +55,12 @@ public class Restaurant {
             }
 
             synchronized (lock) {
-                lock.notify();
                 if (guestQueue.isEmpty()) {
                     break;
+                }
+                else {
+                    guestQueue.poll();
+                    lock.notify();
                 }
             }
         }
