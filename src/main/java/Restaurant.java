@@ -11,13 +11,13 @@ public class Restaurant {
 
 
     public void guestIsHere() {
+        guestQueue.offer(new Guest());
         try {
             Thread.sleep(TIME_BETWEEN_GUESTS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         synchronized (guestQueue) {
-            guestQueue.offer(new Guest());
             System.out.println(Thread.currentThread().getName() + " в ресторане!");
             guestQueue.notify();
         }
@@ -57,10 +57,9 @@ public class Restaurant {
 
             synchronized (lock) {
                 lock.notify();
-            }
-
-            if (guestQueue.isEmpty()) {
-                break;
+                if (guestQueue.isEmpty()) {
+                    break;
+                }
             }
         }
     }
