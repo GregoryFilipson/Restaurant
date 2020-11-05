@@ -1,7 +1,11 @@
 public class Guest {
-//    Order order;
-//
-//    public Guest(Order order) {
-//        this.order = order;
-//    }
+    private final Order order;
+
+    public Guest() {
+        this.order = new Order();
+    }
+
+    public Order getOrder() {
+        return order;
+    }
 }
