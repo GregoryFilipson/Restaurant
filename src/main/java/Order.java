@@ -1,15 +1,34 @@
-import java.util.Random;
-
 public class Order {
-    Random random = new Random();
-    private final String numberOfOrder;
+    private String clientName;
+    private String waiterName;
+    private boolean isOrderExecuted = false;
 
-    public Order() {
-       numberOfOrder = "заказ №" + random.nextInt(30);
+    public Order(String clientName) {
+        this.clientName = clientName;
+    }
+
+    public void setWaiterName(String waiterName) {
+        this.waiterName = waiterName;
+    }
+
+    public String getWaiterName() {
+        return waiterName;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public boolean isOrderExecuted() {
+        return isOrderExecuted;
+    }
+
+    public void setOrderExecuted(boolean orderExecuted) {
+        isOrderExecuted = orderExecuted;
     }
 
     @Override
     public String toString() {
-        return numberOfOrder;
+        return clientName;
     }
 }

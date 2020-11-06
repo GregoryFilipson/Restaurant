@@ -1,11 +1,11 @@
-public class Guest {
-    private final Order order;
-
-    public Guest() {
-        this.order = new Order();
-    }
-
-    public Order getOrder() {
-        return order;
-    }
-}
+//public class Guest {
+//    private final Order order;
+//
+//    public Guest(String name) {
+//        this.order = new Order(name);
+//    }
+//
+//    public Order getOrder() {
+//        return order;
+//    }
+//}
